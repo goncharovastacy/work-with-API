@@ -1,18 +1,27 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+const container = document.getElementById('container');
+
+// создаем содержание дива
+  function createArticle(obj){
+    return `<h3>Заголовок: ${obj.title}</h3>
+    <p>Статья: ${obj.body}</p>`;
+  }
+
+// создаем новый див
+  function createDiv (content) {
+    const div = document.createElement('div');
+    div.innerHTML = content;
+    return div;
+  }
+
+  document.addEventListener("DOMContentLoaded", (event) => {
     fetch('https://jsonplaceholder.typicode.com/posts')
     .then(res => res.json())
     .then(user => {
         user.forEach(el => {
-          createArticle(el.title, el.body)
+          const postText = createArticle(el);
+          const divContent = createDiv(postText);
+          container.append(divContent);
         });
     })
     .catch(error => console.log(error));
   });
-
-  function createArticle (headline, article) {
-      const container = document.getElementById('container');
-      const div = document.createElement('div');
-      div.innerHTML = `<h3>Заголовок: ${headline}</h3>
-      <p>Статья: ${article}</p>`;
-      container.append(div);
-  }
